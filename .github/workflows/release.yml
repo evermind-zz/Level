@@ -51,19 +51,18 @@ jobs:
           echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
           echo Last build tool version is: $BUILD_TOOL_VERSION
 
-      #- name: Sign app APK
-      #  uses: r0adkll/sign-android-release@v1
-      #  # ID used to access action output
-      #  id: sign_app
-      #  with:
-      #    releaseDirectory: app/build/outputs/apk/release
-      #    signingKeyBase64: ${{ secrets.RELEASE_KEYSTORE }}
-      #    #alias: ${{ secrets.ALIAS }}
-      #    alias: alias_name
-      #    keyStorePassword: ${{ secrets.RELEASE_KEYSTORE_PASS }}
-      #    #keyPassword: ${{ secrets.RELEASE_KEYSTORE_PASS }}
-      #  env:
-      #    BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
+      - name: Sign app APK
+        uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.RELEASE_KEYSTORE }}
+          alias: ${{ secrets.RELEASE_ALIAS }}
+          keyStorePassword: ${{ secrets.RELEASE_KEYSTORE_PASS }}
+          #keyPassword: ${{ secrets.RELEASE_KEYSTORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
 
       - name: Upload bubble artifact APK
         uses: actions/upload-artifact@v3
